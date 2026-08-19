@@ -1,0 +1,46 @@
+{
+  "schema": "checkout-sentinel.iac-verification/v1",
+  "verified_at": "2026-08-19T19:17:36.693Z",
+  "terraform_version": "1.15.8",
+  "google_provider_version": "7.45.0",
+  "conftest_version": "0.68.2",
+  "cloud_project": "cse636-wk7-gcmg-20260816",
+  "real_authenticated_plan": {
+    "add": 1,
+    "change": 0,
+    "destroy": 0,
+    "policy_pass": 5,
+    "policy_fail": 0,
+    "result": "PASS"
+  },
+  "negative_policy_fixture": {
+    "policy_pass": 4,
+    "policy_fail": 1,
+    "expected_denial": "labels.environment must equal capstone",
+    "result": "BLOCKED_AS_EXPECTED"
+  },
+  "real_cloud_apply": {
+    "authorized": true,
+    "executed": true,
+    "result": "FAILED_BEFORE_CREATION",
+    "error_code": 403,
+    "error_reason": "accountDisabled",
+    "state_resources_after_attempt": 0,
+    "cloud_resource_created": false,
+    "evidence_file": "gcp-apply-attempt.json"
+  },
+  "approved_sandbox_apply": {
+    "executed": true,
+    "result": "SUCCESS",
+    "add": 1,
+    "change": 0,
+    "destroy": 0,
+    "approved_policy_pass": 3,
+    "denied_policy_fail": 1,
+    "cloud_resource_created": false,
+    "evidence_file": "sandbox-apply-summary.json"
+  },
+  "credential_included_in_evidence": false,
+  "evidence_file": "tfplan-real.json",
+  "evidence_boundary": "The authenticated GCP plan is real. The cloud apply was attempted after human approval but billing blocked it before creation. The successful apply is a local no-cost terraform_data sandbox."
+}

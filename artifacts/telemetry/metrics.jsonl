@@ -1,0 +1,3 @@
+{"canary.traffic_percent":10,"deployment.environment":"capstone-demo","http.server.duration.p95_ms":140,"http.server.error_rate":0.01,"schema":"opentelemetry.metric/v1","service.name":"checkout-api","timestamp":"2026-08-19T19:03:29.720Z"}
+{"canary.traffic_percent":50,"deployment.environment":"capstone-demo","http.server.duration.p95_ms":480,"http.server.error_rate":0.2,"schema":"opentelemetry.metric/v1","service.name":"checkout-api","timestamp":"2026-08-19T19:03:29.721Z"}
+{"gen_ai.agent.name":"sre-response-agent","gen_ai.invoke_agent.inference_calls":1,"gen_ai.invoke_agent.tool_calls":2,"schema":"opentelemetry.metric/v1","timestamp":"2026-08-19T19:03:29.724Z"}

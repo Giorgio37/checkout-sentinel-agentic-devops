@@ -1,0 +1,108 @@
+{
+  "release": "2.3.1",
+  "approval": {
+    "request_sha256": "aeec82fd68647d035c0c4afc2bff97b9e69a0cd074c3457094a6321f86725865",
+    "risk_sha256": "562b8d050bd55aa2a63a3337f4791ba00e198b8692896199c46d290c2bdc2ce9",
+    "decision": "APPROVED",
+    "approver": "Jonathan Zhao",
+    "approved_at": "2026-08-19T19:02:52.806Z",
+    "scope": {
+      "release": "2.3.1",
+      "environment": "capstone-demo"
+    }
+  },
+  "strategy": "canary-10-50-100",
+  "phases": [
+    {
+      "traffic_percent": 10,
+      "metric": {
+        "schema": "opentelemetry.metric/v1",
+        "timestamp": "2026-08-19T19:03:29.720Z",
+        "service.name": "checkout-api",
+        "deployment.environment": "capstone-demo",
+        "canary.traffic_percent": 10,
+        "http.server.error_rate": 0.01,
+        "http.server.duration.p95_ms": 140
+      },
+      "anomaly": {
+        "anomaly": false,
+        "reasons": [],
+        "thresholds": {
+          "error_rate": 0.05,
+          "latency_p95_ms": 350
+        },
+        "observed": {
+          "error_rate": 0.01,
+          "latency_p95_ms": 140,
+          "traffic_percent": 10
+        }
+      },
+      "timestamp": "2026-08-19T19:03:29.721Z"
+    },
+    {
+      "traffic_percent": 50,
+      "metric": {
+        "schema": "opentelemetry.metric/v1",
+        "timestamp": "2026-08-19T19:03:29.721Z",
+        "service.name": "checkout-api",
+        "deployment.environment": "capstone-demo",
+        "canary.traffic_percent": 50,
+        "http.server.error_rate": 0.2,
+        "http.server.duration.p95_ms": 480
+      },
+      "anomaly": {
+        "anomaly": true,
+        "reasons": [
+          "error_rate_above_5_percent",
+          "latency_p95_above_350_ms"
+        ],
+        "thresholds": {
+          "error_rate": 0.05,
+          "latency_p95_ms": 350
+        },
+        "observed": {
+          "error_rate": 0.2,
+          "latency_p95_ms": 480,
+          "traffic_percent": 50
+        }
+      },
+      "timestamp": "2026-08-19T19:03:29.722Z"
+    }
+  ],
+  "final_status": "ROLLED_BACK",
+  "sre_response": {
+    "status": "ROLLED_BACK",
+    "rollback": {
+      "action": "rollback_canary",
+      "from_version": "2.3.1",
+      "to_version": "2.3.0",
+      "traffic_affected_percent": 50,
+      "status": "SUCCEEDED",
+      "executed_at": "2026-08-19T19:03:29.723Z"
+    },
+    "incident": {
+      "schema": "checkout-sentinel.itsm/v1",
+      "incident_id": "INC-CAPSTONE-001",
+      "severity": "SEV-2",
+      "service": "checkout-api",
+      "summary": "Canary error rate exceeded 5% at 50% traffic",
+      "status": "RESOLVED",
+      "opened_at": "2026-08-19T19:03:29.723Z",
+      "resolution": "Policy-constrained rollback to 2.3.0",
+      "evidence": [
+        "telemetry/metrics.jsonl",
+        "release/rollback.json",
+        "audit/events.jsonl"
+      ]
+    },
+    "reasoning_record": {
+      "observation": [
+        "error_rate_above_5_percent",
+        "latency_p95_above_350_ms"
+      ],
+      "policy": "Rollback only an allowlisted canary at or below 50% traffic.",
+      "selected_action": "rollback_canary",
+      "excluded_action": "modify_production_infrastructure"
+    }
+  }
+}

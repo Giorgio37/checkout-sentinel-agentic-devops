@@ -1,0 +1,15 @@
+Internal project evidence:
+- artifacts/build/ci_result.json
+- artifacts/release/risk_assessment.json
+- artifacts/iac/verification-summary.json
+- artifacts/telemetry/spans.jsonl
+- artifacts/audit/events.jsonl
+- config/agents.json
+
+External standards:
+- https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md
+- https://opentelemetry.io/docs/specs/semconv/registry/attributes/gen-ai/
+- https://slsa.dev/spec/draft/build-provenance
+
+No externally sourced images are used. Charts and diagrams use verified project evidence.
+

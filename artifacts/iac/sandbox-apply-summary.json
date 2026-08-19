@@ -1,0 +1,32 @@
+{
+  "schema": "checkout-sentinel.iac-sandbox-apply/v1",
+  "applied_at": "2026-08-19T19:17:36.693Z",
+  "authorization": "apply-approval.json",
+  "environment": "capstone-sandbox",
+  "release": "2.3.1",
+  "cloud_plan_sha256": "a68f87e193d494e60b32758d6f785c8c1c3258b20e0d064ee90f3710ec68e44a",
+  "approved_plan_json_sha256": "8230e7329b68233e2e05b7539bc9ca357c15971752ee185f6ae4b85049868d06",
+  "denied_plan_json_sha256": "8d5a236f574b5c8cead95a0bd473a4d78a23ed460b6f40db6644decc3497e23f",
+  "approved_policy": {
+    "pass": 3,
+    "fail": 0,
+    "result": "PASS"
+  },
+  "denied_policy": {
+    "pass": 2,
+    "fail": 1,
+    "expected_denial": "Sandbox apply requires approved=true from the human gate.",
+    "result": "BLOCKED_AS_EXPECTED"
+  },
+  "terraform_apply": {
+    "executed": true,
+    "result": "SUCCESS",
+    "add": 1,
+    "change": 0,
+    "destroy": 0,
+    "state_resource": "terraform_data.approved_release",
+    "approved": true
+  },
+  "cloud_resource_created": false,
+  "boundary": "This is a no-cost local terraform_data apply, not a cloud deployment."
+}

@@ -1,0 +1,11 @@
+{
+  "id": "generated-shipping-threshold-regression",
+  "arrange": {
+    "subtotal": 20.0
+  },
+  "assert": {
+    "shipping": 7.99,
+    "free_shipping_threshold": 50.0
+  },
+  "generated_by": "ci-review-agent"
+}

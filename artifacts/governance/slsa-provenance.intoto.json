@@ -1,0 +1,53 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "checkout-sentinel-2.3.1.json",
+      "digest": {
+        "sha256": "1ec00139b9842dda6ba8cbc0f61ac3f4101c010436b3a18fca28748d26650e19"
+      }
+    }
+  ],
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "https://example.edu/checkout-sentinel/build/v1",
+      "externalParameters": {
+        "target": "capstone-demo",
+        "release": "2.3.1"
+      },
+      "internalParameters": {
+        "runner": "local-reproducible-demo"
+      },
+      "resolvedDependencies": [
+        {
+          "uri": "pyproject.toml",
+          "digest": {
+            "sha256": "f099e73b666c9b0ba8bd2480c4d46876ee7cdafd60d22b2b183f41fb62ea267a"
+          }
+        },
+        {
+          "uri": "iac/gcs.tf",
+          "digest": {
+            "sha256": "12e89b57491c3361945ee7f647a5f2ee7f91b5626ba2a127e0df2886e293f08a"
+          }
+        },
+        {
+          "uri": "iac/policy/gcs.rego",
+          "digest": {
+            "sha256": "c170fdacef3bf7064074db38fb15b160208d0ab64e43d7b00e7b24abc1e955f6"
+          }
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "https://example.edu/builders/checkout-sentinel-local/v1"
+      },
+      "metadata": {
+        "invocationId": "19149c64b2bedf6cd91c296e",
+        "startedOn": "2026-08-19T18:35:35.682Z"
+      }
+    }
+  }
+}

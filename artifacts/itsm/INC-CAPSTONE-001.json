@@ -1,0 +1,15 @@
+{
+  "schema": "checkout-sentinel.itsm/v1",
+  "incident_id": "INC-CAPSTONE-001",
+  "severity": "SEV-2",
+  "service": "checkout-api",
+  "summary": "Canary error rate exceeded 5% at 50% traffic",
+  "status": "RESOLVED",
+  "opened_at": "2026-08-19T19:03:29.723Z",
+  "resolution": "Policy-constrained rollback to 2.3.0",
+  "evidence": [
+    "telemetry/metrics.jsonl",
+    "release/rollback.json",
+    "audit/events.jsonl"
+  ]
+}

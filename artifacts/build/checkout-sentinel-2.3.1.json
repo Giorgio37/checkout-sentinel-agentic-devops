@@ -1,0 +1,10 @@
+{
+  "name": "checkout-sentinel-2.3.1.json",
+  "version": "2.3.1",
+  "components": [
+    "checkout-api",
+    "ci-review-agent",
+    "release-risk-agent",
+    "sre-response-agent"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "format_version": "1.2",
+  "resource_changes": [
+    {
+      "address": "google_storage_bucket.capstone_artifacts",
+      "mode": "managed",
+      "type": "google_storage_bucket",
+      "name": "capstone_artifacts",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "labels": {
+            "environment": "capstone",
+            "managed_by": "terraform"
+          }
+        },
+        "after": {
+          "labels": {
+            "environment": "staging",
+            "managed_by": "terraform"
+          },
+          "public_access_prevention": "enforced",
+          "uniform_bucket_level_access": true,
+          "versioning": [
+            {
+              "enabled": true
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

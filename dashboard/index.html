@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout Sentinel | Release Control</title>
+  <style>
+    :root { color-scheme: light; --ink:#17202a; --muted:#64717d; --line:#d8dee4; --paper:#ffffff; --wash:#f3f5f6; --teal:#007a70; --teal-dark:#005f57; --red:#b42318; --amber:#a15c00; --green:#19733f; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--wash); color:var(--ink); font:14px/1.5 Inter,Segoe UI,Arial,sans-serif; letter-spacing:0; }
+    header { background:#17202a; color:white; border-bottom:4px solid var(--teal); }
+    .top { max-width:1180px; margin:0 auto; min-height:72px; padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    h1 { margin:0; font-size:22px; font-weight:650; }
+    .subtitle { color:#cbd4dc; margin-top:2px; }
+    .stage { min-width:180px; text-align:right; font-weight:650; }
+    main { max-width:1180px; margin:0 auto; padding:24px; }
+    .summary { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); background:var(--paper); }
+    .metric { min-height:96px; padding:16px; border-right:1px solid var(--line); }
+    .metric:last-child { border-right:0; }
+    .label { color:var(--muted); font-size:12px; text-transform:uppercase; font-weight:650; }
+    .value { font-size:28px; font-weight:680; margin-top:4px; }
+    .detail { color:var(--muted); font-size:12px; }
+    section { margin-top:22px; }
+    h2 { font-size:15px; margin:0 0 10px; }
+    .flow { display:grid; grid-template-columns:repeat(6,minmax(120px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); overflow:auto; }
+    .step { background:var(--paper); min-height:112px; padding:14px; }
+    .step strong { display:block; margin-bottom:8px; }
+    .status { font-size:11px; font-weight:700; }
+    .ok { color:var(--green); } .wait { color:var(--amber); } .bad { color:var(--red); }
+    .grid { display:grid; grid-template-columns:1.15fr .85fr; gap:22px; }
+    .panel { background:var(--paper); border:1px solid var(--line); padding:18px; min-width:0; }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; }
+    th,td { text-align:left; padding:9px 8px; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+    th { color:var(--muted); font-size:12px; }
+    .controls { display:grid; gap:12px; }
+    label { display:grid; gap:5px; color:var(--muted); font-size:12px; }
+    input { width:100%; min-height:40px; border:1px solid #9ba7b1; padding:8px 10px; font:inherit; }
+    .actions { display:flex; gap:8px; flex-wrap:wrap; }
+    button { min-height:40px; border:1px solid var(--teal); background:var(--teal); color:white; padding:8px 14px; font:600 13px inherit; cursor:pointer; border-radius:4px; }
+    button:hover { background:var(--teal-dark); }
+    button.secondary { background:white; color:var(--teal-dark); }
+    button:disabled { cursor:not-allowed; opacity:.45; }
+    .message { min-height:38px; padding:9px 10px; background:var(--wash); border-left:3px solid var(--line); color:var(--muted); }
+    footer { max-width:1180px; margin:0 auto; padding:0 24px 24px; color:var(--muted); font-size:12px; }
+    @media (max-width:800px) { .summary { grid-template-columns:repeat(2,1fr); } .metric:nth-child(2) { border-right:0; } .metric:nth-child(-n+2) { border-bottom:1px solid var(--line); } .flow { grid-template-columns:repeat(3,minmax(0,1fr)); overflow:visible; } .grid { grid-template-columns:1fr; } .top { align-items:flex-start; } .stage { min-width:0; } }
+    @media (max-width:480px) { main { padding:16px; } .summary { grid-template-columns:1fr; } .metric { border-right:0; border-bottom:1px solid var(--line); } .flow { grid-template-columns:repeat(2,minmax(0,1fr)); } .step { min-height:100px; } th,td { padding:7px 4px; font-size:12px; } th:nth-child(1) { width:18%; } th:nth-child(2) { width:22%; } th:nth-child(3) { width:25%; } th:nth-child(4) { width:35%; } td:nth-child(4) { white-space:nowrap; overflow-wrap:normal; } .top { padding:14px 16px; flex-direction:column; } .stage { text-align:left; } }
+  </style>
+</head>
+<body>
+  <header><div class="top"><div><h1>Checkout Sentinel</h1><div class="subtitle">Policy-constrained agentic release control</div></div><div class="stage" id="stage">Loading state...</div></div></header>
+  <main>
+    <div class="summary">
+      <div class="metric"><div class="label">Risk score</div><div class="value" id="risk">-</div><div class="detail" id="riskBand">Awaiting assessment</div></div>
+      <div class="metric"><div class="label">Build</div><div class="value" id="build">-</div><div class="detail" id="remediation">No result</div></div>
+      <div class="metric"><div class="label">OTel spans</div><div class="value" id="spans">0</div><div class="detail" id="metrics">0 metric records</div></div>
+      <div class="metric"><div class="label">Audit events</div><div class="value" id="audits">0</div><div class="detail">Hash-linked inputs and outputs</div></div>
+    </div>
+
+    <section><h2>End-to-end release flow</h2><div class="flow" id="flow"></div></section>
+
+    <section class="grid">
+      <div class="panel"><h2>Canary evidence</h2><table><thead><tr><th>Traffic</th><th>Error rate</th><th>p95 latency</th><th>Decision</th></tr></thead><tbody id="phases"><tr><td colspan="4">Deployment has not started.</td></tr></tbody></table></div>
+      <div class="panel controls">
+        <h2>Human approval gate</h2>
+        <label>Approver name<input id="actor" maxlength="80" placeholder="Enter your name"></label>
+        <div class="actions"><button id="approve">Approve release</button><button id="deploy" class="secondary">Continue deployment</button></div>
+        <div class="message" id="message">Approval is bound to this release request and risk hash.</div>
+      </div>
+    </section>
+  </main>
+  <footer>Local capstone evidence dashboard. It does not create cloud resources or expose credentials.</footer>
+  <script>
+    const flowNames = ['CI review','Auto-remediation','Risk + FinOps','Human approval','Canary release','SRE response'];
+    const el = id => document.getElementById(id);
+    function statusFor(index, state) {
+      const stage = state.pipeline?.stage || 'NOT_STARTED';
+      if (index < 3) return state.ci ? ['COMPLETE','ok'] : ['PENDING','wait'];
+      if (index === 3) return state.approval_decision ? ['APPROVED','ok'] : ['WAITING','wait'];
+      if (index === 4) return state.deployment ? ['ANOMALY DETECTED','bad'] : ['BLOCKED','wait'];
+      return stage === 'ROLLED_BACK' ? ['ROLLED BACK','ok'] : ['PENDING','wait'];
+    }
+    async function refresh() {
+      const state = await fetch('/api/state').then(r => r.json());
+      const stage = state.pipeline?.stage || 'NOT_STARTED';
+      el('stage').textContent = `Release 2.3.1 | ${stage.replaceAll('_',' ')}`;
+      el('risk').textContent = state.risk?.score ?? '-';
+      el('riskBand').textContent = state.risk ? `${state.risk.band} | ${state.risk.strategy}` : 'Awaiting assessment';
+      el('build').textContent = state.ci?.final?.status ?? '-';
+      el('remediation').textContent = state.ci ? `Attempt 1 ${state.ci.initial.status}; repair ${state.ci.remediation}` : 'No result';
+      el('spans').textContent = state.counts.otel_spans;
+      el('metrics').textContent = `${state.counts.otel_metrics} metric records`;
+      el('audits').textContent = state.counts.audit_events;
+      el('flow').innerHTML = flowNames.map((name,i) => { const [s,c]=statusFor(i,state); return `<div class="step"><strong>${i+1}. ${name}</strong><div class="status ${c}">${s}</div></div>`; }).join('');
+      const phases = state.deployment?.phases || [];
+      el('phases').innerHTML = phases.length ? phases.map(p => `<tr><td>${p.traffic_percent}%</td><td>${(p.metric['http.server.error_rate']*100).toFixed(1)}%</td><td>${p.metric['http.server.duration.p95_ms']} ms</td><td class="${p.anomaly.anomaly?'bad':'ok'}">${p.anomaly.anomaly?'ROLLBACK':'CONTINUE'}</td></tr>`).join('') : '<tr><td colspan="4">Deployment has not started.</td></tr>';
+      el('approve').disabled = Boolean(state.approval_decision);
+      el('deploy').disabled = !state.approval_decision || Boolean(state.deployment);
+    }
+    async function post(path, payload) {
+      const response = await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      const body = await response.json();
+      if (!body.ok) throw new Error(body.error);
+      return body;
+    }
+    el('approve').addEventListener('click', async () => { try { await post('/api/approve',{actor:el('actor').value}); el('message').textContent='Approval recorded with timestamp and integrity hashes.'; await refresh(); } catch(e) { el('message').textContent=e.message; } });
+    el('deploy').addEventListener('click', async () => { try { el('message').textContent='Running canary and SRE response...'; await post('/api/deploy',{}); el('message').textContent='Anomaly detected at 50%; rollback and ITSM evidence recorded.'; await refresh(); } catch(e) { el('message').textContent=e.message; } });
+    refresh();
+  </script>
+</body>
+</html>

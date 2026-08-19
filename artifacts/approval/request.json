@@ -1,0 +1,9 @@
+{
+  "release": "2.3.1",
+  "environment": "capstone-demo",
+  "risk_sha256": "562b8d050bd55aa2a63a3337f4791ba00e198b8692896199c46d290c2bdc2ce9",
+  "risk_score": 52,
+  "strategy": "canary-10-50-100",
+  "requested_at": "2026-08-19T18:35:35.683Z",
+  "status": "PENDING"
+}

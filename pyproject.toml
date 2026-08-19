@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "checkout-sentinel"
+version = "1.0.0"
+description = "Policy-constrained agentic DevOps capstone reference implementation"
+requires-python = ">=3.11"
+dependencies = [
+  "opentelemetry-api>=1.27,<2",
+  "opentelemetry-sdk>=1.27,<2",
+]
+
+[project.scripts]
+checkout-sentinel = "checkout_sentinel.orchestrator:main"
+checkout-sentinel-dashboard = "checkout_sentinel.dashboard_server:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["src"]
+testpaths = ["tests"]
+

@@ -1,0 +1,11 @@
+{
+  "request_sha256": "aeec82fd68647d035c0c4afc2bff97b9e69a0cd074c3457094a6321f86725865",
+  "risk_sha256": "562b8d050bd55aa2a63a3337f4791ba00e198b8692896199c46d290c2bdc2ce9",
+  "decision": "APPROVED",
+  "approver": "Jonathan Zhao",
+  "approved_at": "2026-08-19T19:02:52.806Z",
+  "scope": {
+    "release": "2.3.1",
+    "environment": "capstone-demo"
+  }
+}

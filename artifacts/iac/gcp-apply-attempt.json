@@ -1,0 +1,14 @@
+{
+  "schema": "checkout-sentinel.iac-apply-attempt/v1",
+  "attempted_at": "2026-08-19T19:13:13.561Z",
+  "authorization": "apply-approval.json",
+  "plan_sha256": "a68f87e193d494e60b32758d6f785c8c1c3258b20e0d064ee90f3710ec68e44a",
+  "project": "cse636-wk7-gcmg-20260816",
+  "resource": "google_storage_bucket.capstone_artifacts",
+  "result": "FAILED_BEFORE_CREATION",
+  "error_code": 403,
+  "error_reason": "accountDisabled",
+  "error_summary": "The billing account for the owning project is disabled in state absent.",
+  "terraform_state_resources_after_attempt": 0,
+  "cloud_resource_created": false
+}

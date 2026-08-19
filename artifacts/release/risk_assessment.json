@@ -1,0 +1,18 @@
+{
+  "score": 52,
+  "band": "MEDIUM",
+  "strategy": "canary-10-50-100",
+  "human_approval_required": true,
+  "inputs": {
+    "files_changed": 4,
+    "infrastructure_change": true,
+    "database_migration": false,
+    "security_signal": true,
+    "final_tests_pass": true
+  },
+  "finops_estimate": {
+    "currency": "USD",
+    "monthly_estimate": 0.22,
+    "basis": "Illustrative 10 GB storage plus low request volume; verify live cloud pricing before production."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "initial": {
+    "status": "FAIL",
+    "failures": [
+      "free_shipping_threshold must equal 50.0",
+      "$20 checkout must retain standard shipping"
+    ],
+    "tests": 2
+  },
+  "remediation": "APPLIED",
+  "changed_field": "free_shipping_threshold",
+  "final": {
+    "status": "PASS",
+    "failures": [],
+    "tests": 2
+  },
+  "prompt_injection": "BLOCKED"
+}
